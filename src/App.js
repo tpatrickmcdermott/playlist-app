@@ -12,18 +12,16 @@ import React, { Component } from 'react';
 // import logo from './logo.svg';
 import './App.css';
 
-let defaultTextColor = "#ccc";
+// let defaultTextColor = "#ccc";
 let defaultStyle = {
-  color: defaultTextColor,
+  color: "#ccc",
 }
 
 class App extends Component {
   render() {
-    // let name = 'Patrick';
-    // let headerStyle = {color: "#ffff00", 'font-size': '42px'};
     return (
       <div className="App">
-        <h1>Title</h1>
+        <h1 style={{color: "#fff"}}>Title</h1>
         <Aggregate></Aggregate>
         <Aggregate></Aggregate>
         <Filter />
