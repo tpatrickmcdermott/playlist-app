@@ -1,8 +1,8 @@
 /*  New Features
 (1) Add defaultStyle Object, so we can use object spread operator
     (this is a Facebook proposal -- not yet finalized in JSNext)
-(2) Add git repository
-3.
+(2) Create git repository
+
 
 
 */
