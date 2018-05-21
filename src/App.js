@@ -2,11 +2,8 @@
 (1) Add defaultStyle Object, so we can use object spread operator
     (this is a Facebook proposal -- not yet finalized in JSNext)
 (2) Create git repository
-
-
-
+(3) The rest should be covered by git
 */
-
 
 import React, { Component } from 'react';
 // import logo from './logo.svg';
@@ -15,13 +12,19 @@ import './App.css';
 // let defaultTextColor = "#ccc";
 let defaultStyle = {
   color: "#ccc",
-}
+};
+let fakeServerData = {
+  user: {
+    name: 'Paddy'
+  }
+};
+let test = "freddy"
 
 class App extends Component {
   render() {
     return (
       <div className="App">
-        <h1 style={{color: "#fff"}}>Title</h1>
+        <h1 style={{color: "#fff"}}>{fakeServerData.user.name}&apos;s Playlists</h1>
         <Aggregate></Aggregate>
         <Aggregate></Aggregate>
         <Filter />
