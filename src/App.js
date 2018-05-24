@@ -1,5 +1,5 @@
 /*  New Features
-(1) Added fake server data to playlist and minutes counters
+(1) FB custom JS proposal
 */
 
 import React, { Component } from 'react';
@@ -13,7 +13,7 @@ let fakeServerData = {
     name: 'Paddy',
     playlists: [
       {
-        name: "my favs",
+        name: "My Favs",
         songs: [
           {name: "Beat It", duration: 265},
           {name: "Billy Jean", duration: 323},
@@ -63,7 +63,7 @@ class App extends Component {
             <Filter />
             {
               this.state.serverData.user.playlists.map(playlist =>
-                <Playlist />
+                <Playlist name={playlist.name} foo={"bar"} />
               )
             }
           </div> :
@@ -117,12 +117,11 @@ class Filter extends Component {
 
 class Playlist extends Component {
   render() {
-    let name = "Unknown";
     return (
       //  Use object spread operator (1)
       <div style={{...defaultStyle, display: "inline-block", width: "25%"}}>
         <img />
-        <h3>Playlist {name}</h3>
+        <h3>{this.props.name}</h3>
         <ul>
           <li>Song 1</li>
           <li>Song 1</li>
