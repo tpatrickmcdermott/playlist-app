@@ -21,7 +21,7 @@ let fakeServerData = {
         ]
       },
       {
-        name: 'Discover weekly',
+        name: 'Discover Weekly',
         songs: [
           {name: "Ironman", duration: 573},
           {name: "The Immigrant Song", duration: 342},
@@ -40,32 +40,48 @@ let fakeServerData = {
   }
 };
 
+
+//  ===========================================================
+//  APP main component
+//  ===========================================================
 class App extends Component {
   constructor() {
     super();
-    this.state = { serverData: {} };
+    this.state = {
+      serverData: {},
+      filterString: ''
+    };
   }
   componentDidMount() {
     setTimeout( () => {
       this.setState({serverData: fakeServerData});
-    }, 1000);
+    }, 50);
   };
   render() {
-    let s = this.state.serverData;  // shortcut
+    //                          Shortcuts
+    //  ---------------------------------
+    let user = this.state.serverData.user;
+    //  ---------------------------------
     return (
       <div className="App">
-        {this.state.serverData.user ?
+        {user ?
           <div id="results">
             <h1 style={{color: "#fff"}}>
-            {s.user.name}&apos;s Playlists
+            {user.name}&apos;s Playlists
             </h1>
 
-            <PlayListCounter playlists={this.state.serverData.user.playlists} />
-            <HoursCounter playlists={this.state.serverData.user.playlists} />
-            <Filter />
+            <PlayListCounter playlists={user.playlists} />
+            <HoursCounter playlists={user.playlists} />
+            <Filter onTextChange={text => {
+                this.setState( {filterString: text} )
+                }
+              }/>
 
             {
-              this.state.serverData.user.playlists.map(playlist =>
+              user.playlists.filter(playlist =>
+                playlist.name.toLowerCase().includes(
+                  this.state.filterString.toLowerCase())
+              ).map(playlist =>
                 <Playlist playlist={playlist} foo={"bar"} />
               )
             }
@@ -77,7 +93,7 @@ class App extends Component {
   }
 }
 
-//  COMPONENTS
+//  SUB-COMPONENTS
 class PlayListCounter extends Component {
   render() {
     return (
@@ -98,6 +114,7 @@ class HoursCounter extends Component {
     let totalDuration = allSongs.reduce( (a, b) => {
       return a + b.duration;
     }, 0);
+
     return (
       <div style={{...defaultStyle, width: "40%", display: "inline-block"}}>
         <h2>{Math.round(totalDuration/60)} minutes </h2>
@@ -112,7 +129,8 @@ class Filter extends Component {
       <div>
         <img/>
         <label for="filter" style={{paddingRight: "1em", color: "#999"}}>Filter</label>
-        <input type="text" id="filter" />
+        <input type="text" onChange={event =>
+          this.props.onTextChange(event.target.value) } />
       </div>
     );
   }
@@ -123,7 +141,7 @@ class Playlist extends Component {
     let playlist = this.props.playlist;
     let hms = function(time) {
       let seconds = time % 60;
-      return "length: " + Math.floor(time/60)+":"+seconds
+      return "length: "  + Math.floor(time/60)+":"+seconds
     }
     return (
       //  Use object spread operator (1)
