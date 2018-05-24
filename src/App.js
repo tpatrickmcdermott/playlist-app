@@ -29,7 +29,7 @@ let fakeServerData = {
         ]
       },
       {
-        name: 'Another Playlist',
+        name: 'Songs about Animals',
         songs: [
           {name: "Fish Heads", duration: 135, artist: "Barnes and Barnes"},
           {name: "Smelly Cat", duration: 557},
@@ -55,13 +55,18 @@ class App extends Component {
   componentDidMount() {
     setTimeout( () => {
       this.setState({serverData: fakeServerData});
-    }, 50);
+    }, 200);
   };
   render() {
-    //                          Shortcuts
-    //  ---------------------------------
+    //  ---------------------------------   Shortcuts |
     let user = this.state.serverData.user;
-    //  ---------------------------------
+    //  ----------------------------------------------|
+    let playlistToRender = this.state.serverData.user ?
+      user.playlists.filter(playlist =>
+        playlist.name.toLowerCase().includes(
+          this.state.filterString.toLowerCase())
+    )
+    : [];
     return (
       <div className="App">
         {user ?
@@ -70,18 +75,14 @@ class App extends Component {
             {user.name}&apos;s Playlists
             </h1>
 
-            <PlayListCounter playlists={user.playlists} />
-            <HoursCounter playlists={user.playlists} />
+            <PlayListCounter playlists={playlistToRender} />
+            <HoursCounter playlists={playlistToRender} />
             <Filter onTextChange={text => {
                 this.setState( {filterString: text} )
                 }
               }/>
 
-            {
-              user.playlists.filter(playlist =>
-                playlist.name.toLowerCase().includes(
-                  this.state.filterString.toLowerCase())
-              ).map(playlist =>
+            {playlistToRender.map(playlist =>
                 <Playlist playlist={playlist} foo={"bar"} />
               )
             }
