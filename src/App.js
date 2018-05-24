@@ -17,6 +17,7 @@ let fakeServerData = {
         songs: [
           {name: "Beat It", duration: 265},
           {name: "Billy Jean", duration: 323},
+          {name: "Like a Virgin", duration: 823},
         ]
       },
       {
@@ -32,6 +33,7 @@ let fakeServerData = {
         songs: [
           {name: "Fish Heads", duration: 135, artist: "Barnes and Barnes"},
           {name: "Smelly Cat", duration: 557},
+          {name: "Worm Food", duration: 357},
         ]
       },
     ],
@@ -61,6 +63,7 @@ class App extends Component {
             <PlayListCounter playlists={this.state.serverData.user.playlists} />
             <HoursCounter playlists={this.state.serverData.user.playlists} />
             <Filter />
+
             {
               this.state.serverData.user.playlists.map(playlist =>
                 <Playlist playlist={playlist} foo={"bar"} />
@@ -123,9 +126,12 @@ class Playlist extends Component {
         <img />
         <h3>{this.props.playlist.name}</h3>
         <ul>
-          <li>{this.props.playlist.songs[0].name} ({this.props.playlist.songs[0].duration} secs)</li>
-          <li>Song 1</li>
-          <li>Song 1</li>
+          {this.props.playlist.songs.map( song =>
+            <li style={{"text-align": "left", "margin-bottom": ".5em"}}>{song.name} <br/>
+            <i style={{"font-size": ".75em", "color": "#999"}}>
+              {song.duration} seconds
+            </i></li>
+          )}
         </ul>
       </div>
     );
