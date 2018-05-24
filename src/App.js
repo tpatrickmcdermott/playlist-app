@@ -17,7 +17,7 @@ let fakeServerData = {
         songs: [
           {name: "Beat It", duration: 265},
           {name: "Billy Jean", duration: 323},
-          {name: "Like a Virgin", duration: 823},
+          {name: "Like a Virgin", duration: 3823},
         ]
       },
       {
@@ -120,16 +120,21 @@ class Filter extends Component {
 
 class Playlist extends Component {
   render() {
+    let playlist = this.props.playlist;
+    let hms = function(time) {
+      let seconds = time % 60;
+      return "length: " + Math.floor(time/60)+":"+seconds
+    }
     return (
       //  Use object spread operator (1)
       <div style={{...defaultStyle, display: "inline-block", width: "25%"}}>
         <img />
-        <h3>{this.props.playlist.name}</h3>
+        <h3>{playlist.name}</h3>
         <ul>
-          {this.props.playlist.songs.map( song =>
+          {playlist.songs.map( song =>
             <li style={{"text-align": "left", "margin-bottom": ".5em"}}>{song.name} <br/>
             <i style={{"font-size": ".75em", "color": "#999"}}>
-              {song.duration} seconds
+              {hms(song.duration)}
             </i></li>
           )}
         </ul>
