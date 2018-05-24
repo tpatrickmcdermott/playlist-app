@@ -1,47 +1,103 @@
 /*  New Features
-(1) Add defaultStyle Object, so we can use object spread operator
-    (this is a Facebook proposal -- not yet finalized in JSNext)
-(2) Create git repository
-(3) The rest should be covered by git
+(1) Added fake server data to playlist and minutes counters
 */
 
 import React, { Component } from 'react';
-// import logo from './logo.svg';
 import './App.css';
 
-// let defaultTextColor = "#ccc";
 let defaultStyle = {
   color: "#ccc",
 };
 let fakeServerData = {
   user: {
-    name: 'Paddy'
+    name: 'Paddy',
+    playlists: [
+      {
+        name: "my favs",
+        songs: [
+          {name: "Beat It", duration: 265},
+          {name: "Billy Jean", duration: 323},
+        ]
+      },
+      {
+        name: 'Discover weekly',
+        songs: [
+          {name: "Ironman", duration: 573},
+          {name: "The Immigrant Song", duration: 342},
+          {name: "The Sunshine of My Love", duration: 342},
+        ]
+      },
+      {
+        name: 'Another Playlist',
+        songs: [
+          {name: "Fish Heads", duration: 135, artist: "Barnes and Barnes"},
+          {name: "Smelly Cat", duration: 557},
+        ]
+      },
+    ],
   }
 };
-let test = "freddy"
 
 class App extends Component {
+  constructor() {
+    super();
+    this.state = { serverData: {} };
+  }
+  componentDidMount() {
+    setTimeout( () => {
+      this.setState({serverData: fakeServerData});
+    }, 1000);
+  };
   render() {
+    let s = this.state.serverData;  // shortcut
     return (
       <div className="App">
-        <h1 style={{color: "#fff"}}>{fakeServerData.user.name}&apos;s Playlists</h1>
-        <Aggregate></Aggregate>
-        <Aggregate></Aggregate>
-        <Filter />
-        <Playlist/>
-        <Playlist/>
-        <Playlist/>
+        {this.state.serverData.user ?
+          <div id="results">
+            <h1 style={{color: "#fff"}}>
+            {s.user.name}&apos;s Playlists
+            </h1>
+
+            <PlayListCounter playlists={this.state.serverData.user.playlists} />
+            <HoursCounter playlists={this.state.serverData.user.playlists} />
+            <Filter />
+            {
+              this.state.serverData.user.playlists.map(playlist =>
+                <Playlist />
+              )
+            }
+          </div> :
+          <h1>Loading...</h1>
+        }
       </div>
     );
   }
 }
 
 //  COMPONENTS
-class Aggregate extends Component {
+class PlayListCounter extends Component {
   render() {
     return (
       <div style={{...defaultStyle, width: "40%", display: "inline-block"}}>
-        <h2>Number Text</h2>
+        <h2>
+          {this.props.playlists.length} playlists
+        </h2>
+      </div>
+    );
+  }
+}
+
+class HoursCounter extends Component {
+  render() {
+    let allSongs = this.props.playlists.reduce( (songs, eachPlaylist) => {
+      return songs.concat(eachPlaylist.songs)
+    }, []);
+    let totalDuration = allSongs.reduce( (a, b) => {
+      return a + b.duration;
+    }, 0);
+    return (
+      <div style={{...defaultStyle, width: "40%", display: "inline-block"}}>
+        <h2>{Math.round(totalDuration/60)} minutes </h2>
       </div>
     );
   }
