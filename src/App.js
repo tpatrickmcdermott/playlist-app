@@ -63,7 +63,7 @@ class App extends Component {
             <Filter />
             {
               this.state.serverData.user.playlists.map(playlist =>
-                <Playlist name={playlist.name} foo={"bar"} />
+                <Playlist playlist={playlist} foo={"bar"} />
               )
             }
           </div> :
@@ -121,9 +121,9 @@ class Playlist extends Component {
       //  Use object spread operator (1)
       <div style={{...defaultStyle, display: "inline-block", width: "25%"}}>
         <img />
-        <h3>{this.props.name}</h3>
+        <h3>{this.props.playlist.name}</h3>
         <ul>
-          <li>Song 1</li>
+          <li>{this.props.playlist.songs[0].name} ({this.props.playlist.songs[0].duration} secs)</li>
           <li>Song 1</li>
           <li>Song 1</li>
         </ul>
