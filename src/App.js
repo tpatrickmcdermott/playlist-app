@@ -36,6 +36,15 @@ let fakeServerData = {
           {name: "Worm Food", duration: 357},
         ]
       },
+      {
+        name: 'Songs by Animals',
+        songs: [
+          {name: "Cats Rule", duration: 135, artist: "The Cats"},
+          {name: "Dogs Suck", duration: 15, artist: "Not the Dogs"},
+          {name: "Smelly Dog", duration: 557},
+          {name: "Worm Heads", duration: 357},
+        ]
+      },
     ],
   }
 };
