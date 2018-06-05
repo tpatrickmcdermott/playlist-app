@@ -41,9 +41,15 @@ let fakeServerData = {
         name: 'Songs by Animals',
         songs: [
 <<<<<<< HEAD
+<<<<<<< HEAD
           {name: "Cats Rule", duration: 1355, artist: "Tom and Sylvester"},
           {name: "Dogs Suck", duration: 15, artist: "Tom and Sylvester"},
           {name: "Smelly Food", duration: 557},
+=======
+          {name: "Cats Rule", duration: 135, artist: "The Cats"},
+          {name: "Dogs Suck", duration: 15, artist: "Not the Dogs"},
+          {name: "Smelly Dog", duration: 557},
+>>>>>>> 28059240304f44ec504430351b1c03d00f1d5878
 =======
           {name: "Cats Rule", duration: 135, artist: "The Cats"},
           {name: "Dogs Suck", duration: 15, artist: "Not the Dogs"},
