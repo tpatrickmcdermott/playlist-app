@@ -18,6 +18,7 @@ let fakeServerData = {
           {name: "Beat It", duration: 265},
           {name: "Billy Jean", duration: 323},
           {name: "Like a Virgin", duration: 3823},
+          {name: "Yellow Submarine", duration: 325}
         ]
       },
       {
@@ -34,6 +35,21 @@ let fakeServerData = {
           {name: "Fish Heads", duration: 135, artist: "Barnes and Barnes"},
           {name: "Smelly Cat", duration: 557},
           {name: "Worm Food", duration: 357},
+        ]
+      },
+      {
+        name: 'Songs by Animals',
+        songs: [
+<<<<<<< HEAD
+          {name: "Cats Rule", duration: 1355, artist: "Tom and Sylvester"},
+          {name: "Dogs Suck", duration: 15, artist: "Tom and Sylvester"},
+          {name: "Smelly Food", duration: 557},
+=======
+          {name: "Cats Rule", duration: 135, artist: "The Cats"},
+          {name: "Dogs Suck", duration: 15, artist: "Not the Dogs"},
+          {name: "Smelly Dog", duration: 557},
+>>>>>>> 28059240304f44ec504430351b1c03d00f1d5878
+          {name: "Worm Heads", duration: 357},
         ]
       },
     ],
@@ -128,7 +144,7 @@ class Filter extends Component {
   render() {
     return (
       <div>
-        <img/>
+        <img alt=""/>
         <label for="filter" style={{paddingRight: "1em", color: "#999"}}>Filter</label>
         <input type="text" onChange={event =>
           this.props.onTextChange(event.target.value) } />
