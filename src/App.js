@@ -1,5 +1,7 @@
 /*  New Features
 (1) FB custom JS proposal
+
+* TODO: Clean up time formats: 6:05 displays as 6:5
 */
 
 import React, { Component } from 'react';
@@ -157,7 +159,7 @@ class Playlist extends Component {
     return (
       //  Use object spread operator (1)
       <div style={{...defaultStyle, display: "inline-block", width: "25%"}}>
-        <img />
+        <img alt="" />
         <h3>{playlist.name}</h3>
         <ul>
           {playlist.songs.map( song =>
