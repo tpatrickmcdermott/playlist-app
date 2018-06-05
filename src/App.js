@@ -18,7 +18,7 @@ let fakeServerData = {
           {name: "Beat It", duration: 265},
           {name: "Billy Jean", duration: 323},
           {name: "Like a Virgin", duration: 3823},
-          {name: "Yellow Submarine", duration: 325}
+          {name: "Yellow Submarine", duration: 365}
         ]
       },
       {
