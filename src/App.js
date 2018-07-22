@@ -6,6 +6,7 @@
 
 import React, { Component } from 'react';
 import './App.css';
+import queryString from 'query-string';
 
 let defaultStyle = {
   color: "#ccc",
@@ -65,10 +66,19 @@ class App extends Component {
     };
   }
   componentDidMount() {
-    setTimeout( () => {
-      this.setState({serverData: fakeServerData});
-    }, 200);
-  };
+    // setTimeout( () => {
+    //   this.setState({serverData: fakeServerData});
+    // }, 200);
+    let parsed = queryString.parse(window.location.search);
+    let accessToken = parsed.access_token;
+    // console.log(accessToken);
+    fetch( 'https://api.spotify.com/v1/me', {
+      headers: {'Authorization': 'Bearer '+accessToken}
+    })
+      .then( response => response.json() )
+      .then(data => console.log(data))
+      // .then( data => this.setState({serverData: {user: {name: data.display_name}}}) )
+  }
   render() {
     //  ---------------------------------   Shortcuts |
     let user = this.state.serverData.user;
@@ -86,20 +96,22 @@ class App extends Component {
             <h1 style={{color: "#fff"}}>
             {user.name}&apos;s Playlists
             </h1>
+              <PlayListCounter playlists={playlistToRender} />
+              <HoursCounter playlists={playlistToRender} />
+              <Filter onTextChange={text => {
+                  this.setState( {filterString: text} )
+                  }
+                }/>
 
-            <PlayListCounter playlists={playlistToRender} />
-            <HoursCounter playlists={playlistToRender} />
-            <Filter onTextChange={text => {
-                this.setState( {filterString: text} )
-                }
-              }/>
-
-            {playlistToRender.map(playlist =>
-                <Playlist playlist={playlist} foo={"bar"} />
-              )
-            }
+              {playlistToRender.map(playlist =>
+                  <Playlist playlist={playlist} foo={"bar"} />
+                )
+              }
           </div> :
-          <h1>Loading...</h1>
+          // -- or --
+          <button onClick={()=> window.location.replace('http://localhost:8888/login')}
+            style={{padding: "1em", marginTop: "1em", fontSize: "1em", borderRadius: "8px"}}>
+            Sign in with Spotify</button>
         }
       </div>
     );
