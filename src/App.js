@@ -72,23 +72,46 @@ class App extends Component {
     let parsed = queryString.parse(window.location.search);
     let accessToken = parsed.access_token;
     // console.log(accessToken);
+
+    // get user via spotify sign-in
     fetch( 'https://api.spotify.com/v1/me', {
       headers: {'Authorization': 'Bearer '+accessToken}
     })
       .then( response => response.json() )
-      .then(data => console.log(data))
-      // .then( data => this.setState({serverData: {user: {name: data.display_name}}}) )
+      .then( data => this.setState({serverData: {user: {name: data.display_name}}}) )
+
+
+
+    // get user's playlists
+    fetch( 'https://api.spotify.com/v1/me/playlists', {
+      headers: {'Authorization': 'Bearer '+accessToken}
+    })
+      .then( response => response.json() )
+      // .then(data => console.log(data))
+      // .then( data => this.setState({serverData: {user: {playlists: data.items}}}) )
+      .then( data => this.setState({
+        serverData: {
+          user: {
+            playlists: data.items.map(item => ({
+              name: item.name, songs: []
+            }))
+          }
+        }
+      }))
+      .then(data => console.log(this.state.serverData.user))
   }
   render() {
     //  ---------------------------------   Shortcuts |
     let user = this.state.serverData.user;
     //  ----------------------------------------------|
-    let playlistToRender = this.state.serverData.user ?
-      user.playlists.filter(playlist =>
-        playlist.name.toLowerCase().includes(
-          this.state.filterString.toLowerCase())
-    )
-    : [];
+    let playlistToRender =
+      this.state.serverData.user &&
+      user.playlists
+        ? user.playlists.filter(playlist =>
+            playlist.name.toLowerCase().includes(
+              this.state.filterString.toLowerCase())
+          )
+        : [];
     return (
       <div className="App">
         {user ?
@@ -97,7 +120,7 @@ class App extends Component {
             {user.name}&apos;s Playlists
             </h1>
               <PlayListCounter playlists={playlistToRender} />
-              <HoursCounter playlists={playlistToRender} />
+              {/* <HoursCounter playlists={playlistToRender} /> */}
               <Filter onTextChange={text => {
                   this.setState( {filterString: text} )
                   }
