@@ -74,11 +74,11 @@ class App extends Component {
     // console.log(accessToken);
 
     // get user via spotify sign-in
-    fetch( 'https://api.spotify.com/v1/me', {
-      headers: {'Authorization': 'Bearer '+accessToken}
-    })
-      .then( response => response.json() )
-      .then( data => this.setState({serverData: {user: {name: data.display_name}}}) )
+    // fetch( 'https://api.spotify.com/v1/me', {
+    //   headers: {'Authorization': 'Bearer '+accessToken}
+    // })
+    //   .then( response => response.json() )
+    //   .then( data => this.setState({serverData: {user: {name: data.display_name}}}) )
 
 
 
@@ -87,7 +87,6 @@ class App extends Component {
       headers: {'Authorization': 'Bearer '+accessToken}
     })
       .then( response => response.json() )
-      // .then(data => console.log(data))
       // .then( data => this.setState({serverData: {user: {playlists: data.items}}}) )
       .then( data => this.setState({
         serverData: {
@@ -99,6 +98,7 @@ class App extends Component {
         }
       }))
       .then(data => console.log(this.state.serverData.user))
+      // .then(console.log(data);)
   }
   render() {
     //  ---------------------------------   Shortcuts |
