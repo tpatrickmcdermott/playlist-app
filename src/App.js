@@ -61,6 +61,7 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
+      user: '',
       serverData: {},
       filterString: ''
     };
@@ -74,11 +75,13 @@ class App extends Component {
     // console.log(accessToken);
 
     // get user via spotify sign-in
-    // fetch( 'https://api.spotify.com/v1/me', {
-    //   headers: {'Authorization': 'Bearer '+accessToken}
-    // })
-    //   .then( response => response.json() )
-    //   .then( data => this.setState({serverData: {user: {name: data.display_name}}}) )
+    fetch( 'https://api.spotify.com/v1/me', {
+      headers: {'Authorization': 'Bearer '+accessToken}
+    })
+      .then( response => response.json() )
+      // .then( data => this.setState({serverData: {user: {name: data.display_name}}}) )
+      .then( data => this.setState({user: {name: data.display_name}}) )
+
 
 
 
@@ -89,25 +92,23 @@ class App extends Component {
       .then( response => response.json() )
       // .then( data => this.setState({serverData: {user: {playlists: data.items}}}) )
       .then( data => this.setState({
-        serverData: {
-          user: {
-            playlists: data.items.map(item => ({
-              name: item.name, songs: []
+        playlists: data.items.map(item => ({
+              name: item.name,
+              thumb: item.images[0],
+              songs: []
             }))
-          }
-        }
       }))
-      .then(data => console.log(this.state.serverData.user))
-      // .then(console.log(data);)
+      .then(data => console.log(this.state.playlists))
   }
   render() {
     //  ---------------------------------   Shortcuts |
-    let user = this.state.serverData.user;
+    // let user = this.state.serverData.user;
+    let user = this.state.user;
     //  ----------------------------------------------|
     let playlistToRender =
-      this.state.serverData.user &&
-      user.playlists
-        ? user.playlists.filter(playlist =>
+      this.state.user &&
+      this.state.playlists
+        ? this.state.playlists.filter(playlist =>
             playlist.name.toLowerCase().includes(
               this.state.filterString.toLowerCase())
           )
@@ -117,10 +118,11 @@ class App extends Component {
         {user ?
           <div id="results">
             <h1 style={{color: "#fff"}}>
-            {user.name}&apos;s Playlists
+            {this.state.user.name}&apos;s Playlists
             </h1>
               <PlayListCounter playlists={playlistToRender} />
               {/* <HoursCounter playlists={playlistToRender} /> */}
+              <HoursCounter playlists={playlistToRender} />
               <Filter onTextChange={text => {
                   this.setState( {filterString: text} )
                   }
@@ -193,8 +195,10 @@ class Playlist extends Component {
     }
     return (
       //  Use object spread operator (1)
-      <div style={{...defaultStyle, display: "inline-block", width: "25%"}}>
-        <img alt="" />
+      <div style={{...defaultStyle, display: "inline-block", width: "25%", marginLeft: ".25em"}}>
+        <div style={{}}>
+          <img alt="" src={playlist.thumb.url} style={{width:"100%"}}/>
+        </div>
         <h3>{playlist.name}</h3>
         <ul>
           {playlist.songs.map( song =>
