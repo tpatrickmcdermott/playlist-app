@@ -72,6 +72,7 @@ class App extends Component {
     // }, 200);
     let parsed = queryString.parse(window.location.search);
     let accessToken = parsed.access_token;
+     if (!accessToken) return;
     // console.log(accessToken);
 
     // get user via spotify sign-in
